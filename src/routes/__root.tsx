@@ -9,7 +9,7 @@ function RootComponent() {
 	return (
 		<React.Fragment>
 			<nav>
-				<ul className={bg-blue-500}>
+				<ul>
 					<Link to="/">Feed</Link>
 					<Link to="/about">About</Link>
 					<Link to="/about">Contacts</Link>
