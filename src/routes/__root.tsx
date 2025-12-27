@@ -1,25 +1,19 @@
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
-import * as React from 'react'
+import { Outlet, createRootRoute } from '@tanstack/react-router';
+import * as React from 'react';
+import { Header } from '../component/Header';
 
 export const Route = createRootRoute({
 	component: RootComponent
-})
+});
 
 function RootComponent() {
 	return (
 		<React.Fragment>
-			<nav>
-				<ul>
-					<Link to="/">Feed</Link>
-					<Link to="/about">About</Link>
-					<Link to="/about">Contacts</Link>
-				</ul>
-			</nav>
+			<Header />
 
 			<Outlet />
 
 			<p>Copyright</p>
 		</React.Fragment>
-	)
+	);
 }
- 
