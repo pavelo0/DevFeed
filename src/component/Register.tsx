@@ -373,13 +373,13 @@ const Register = () => {
 							</div>
 						)}
 
-						<Button
-							type="submit"
-							className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
-						>
-							Create Account
-						</Button>
-					</form>
+							<Button
+								type="submit"
+								className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-[1.02]"
+							>
+								Create Account
+							</Button>
+						</form>
 
 						<div className="mt-6 text-center">
 							<p className="text-sm text-gray-600">
@@ -392,7 +392,6 @@ const Register = () => {
 								</Link>
 							</p>
 						</div>
-					</form>
 					</CardContent>
 				</Card>
 			</div>
