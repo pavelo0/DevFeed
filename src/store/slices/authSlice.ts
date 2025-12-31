@@ -22,12 +22,14 @@ interface AuthState {
 	users: LocalUser[];
 	currentUser: LocalUser | null;
 	isAuthenticated: boolean;
+	favorites: number[];
 }
 
 const initialState: AuthState = {
 	users: [],
 	currentUser: null,
-	isAuthenticated: false
+	isAuthenticated: false,
+	favorites: []
 };
 
 export const authSlice = createSlice({
@@ -69,8 +71,20 @@ export const authSlice = createSlice({
 		logout: state => {
 			state.currentUser = null;
 			state.isAuthenticated = false;
+			state.favorites = [];
+		},
+
+		toggleFavorite: (state, action: PayloadAction<number>) => {
+			const postId = action.payload;
+			const index = state.favorites.indexOf(postId);
+
+			if (index === -1) {
+				state.favorites.push(postId);
+			} else {
+				state.favorites.splice(index, 1);
+			}
 		}
 	}
 });
 
-export const { register, login, logout } = authSlice.actions;
+export const { register, login, logout, toggleFavorite } = authSlice.actions;

@@ -18,6 +18,27 @@ export type User = {
 	email: string;
 };
 
+export interface UserComment {
+	id: number;
+	username: string;
+	fullName: string;
+}
+
+export type Comment = {
+	id: number;
+	body: string;
+	postId: number;
+	likes: number;
+	user: UserComment;
+};
+
+export interface Comments {
+	comments: Comment[];
+	total: number;
+	skip: number;
+	limit: number;
+}
+
 export const fetchPosts = async (): Promise<Post[]> => {
 	const response = await fetch('https://dummyjson.com/posts');
 
@@ -49,4 +70,15 @@ export const fetchPostsByTag = async (tag: string): Promise<Post[]> => {
 
 	const data = await response.json();
 	return data.posts;
+};
+
+export const fetchCommentsByPostId = async (id: string): Promise<Comments> => {
+	const response = await fetch(`https://dummyjson.com/posts/${id}/comments`);
+
+	if (!response.ok) {
+		throw new Error('Some Error Occurred');
+	}
+
+	const data = await response.json();
+	return data;
 };

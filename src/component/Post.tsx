@@ -1,6 +1,8 @@
 import { useAuthGuard } from '@/hooks/useAuthGuard';
+import type { RootState } from '@/store';
+import { toggleFavorite } from '@/store/slices/authSlice';
 import { useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import type { Post as PostType } from '../lib/api';
 import { Button } from './ui/button';
 
@@ -10,9 +12,13 @@ type PostProps = {
 
 const Post = ({ post }: PostProps) => {
 	const navigate = useNavigate();
-	const [isFavorite, setIsFavorite] = useState(false);
+	const dispatch = useDispatch();
 	const { id, title, body, tags, reactions, views } = post;
 	const isAuth = useAuthGuard();
+
+	// Получаем состояние избранного из Redux
+	const favorites = useSelector((state: RootState) => state.auth.favorites);
+	const isFavorite = favorites.includes(id);
 
 	const handleSelectTag = (e: React.MouseEvent, tag: string) => {
 		e.stopPropagation();
@@ -29,16 +35,11 @@ const Post = ({ post }: PostProps) => {
 			navigate({ to: '/login' });
 			return;
 		}
-		navigate({ to: '/posts/$id', params: { id: String(id) } });
-	};
-
-	const handleFavorite = (e: React.MouseEvent) => {
-		if (!isAuth) {
-			navigate({ to: '/login' });
-			return;
-		}
-		e.stopPropagation();
-		setIsFavorite(!isFavorite);
+		navigate({
+			to: '/posts/$id',
+			params: { id: String(id) },
+			search: { comments: false }
+		});
 	};
 
 	const handleComments = (e: React.MouseEvent) => {
@@ -47,7 +48,20 @@ const Post = ({ post }: PostProps) => {
 			return;
 		}
 		e.stopPropagation();
-		navigate({ to: '/posts/$id', params: { id: String(id) } });
+		navigate({
+			to: '/posts/$id',
+			params: { id: String(id) },
+			search: { comments: true }
+		});
+	};
+
+	const handleFavorite = (e: React.MouseEvent) => {
+		if (!isAuth) {
+			navigate({ to: '/login' });
+			return;
+		}
+		e.stopPropagation();
+		dispatch(toggleFavorite(id));
 	};
 
 	return (
